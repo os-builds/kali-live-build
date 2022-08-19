@@ -1,0 +1,7 @@
+# TODO not enough space on disk to generate iso, maybe delete cache before generating iso?
+#kali-linux-everything
+terminator
+seclists
+gobuster
+# xmlstarlet is required, to adjust the xfce4 keyboard shortcuts (see post-install.sh)
+xmlstarlet
