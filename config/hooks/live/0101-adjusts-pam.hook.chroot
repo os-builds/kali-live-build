@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# stop execution on first error
+set -e
+
+echo "[${0}] Adjusting pam configuration (skip gui password prompt's)"
+sed -i '2 aauth sufficient pam_succeed_if.so user ingroup sudo\n' /etc/pam.d/polkit-1

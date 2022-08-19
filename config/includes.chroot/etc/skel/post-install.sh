@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # change wallpaper
-#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/custom.png
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/blackscreen.png
 
 # adjust keybinds (add Super + E for file manager)
 if ! which xmlstarlet &> /dev/null; then
   sudo apt install -y xmlstarlet
 fi
-keyboardShortcutsConfig="/etc/skel/.config/xfce4/xfconf/xfce-prechannel-xml/xfce4-keyboard-shortcuts.xml"
+keyboardShortcutsConfig="~/.config/xfce4/xfconf/xfce-prechannel-xml/xfce4-keyboard-shortcuts.xml"
 xPath='/channel/property[@name="commands"]/property[@name="custom"]/property[not(@name)]'
 xmlstarlet ed --inplace --insert ${xPath} --type attr --name "name" --value "&lt;Super&gt;e" ${keyboardShortcutsConfig}
 xmlstarlet ed --inplace --insert ${xPath} --type attr --name "type" --value "string" ${keyboardShortcutsConfig}

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+### CONFIGURATION SECTION ###
+username=kali
+password=kali
+rootPassword=root
+### END OF CONFIGURATION SECTION ###
+
+# stop execution on first error
+set -e
+
+echo "[${0}] Creating user: ${username}"
+useradd --groups sudo --create-home --shell=/bin/bash --password $(echo ${password} | mkpasswd --method=bcrypt --stdin) ${username}
+
+echo "[${0}] Setting root password"
+usermod --password $(echo ${rootPassword} | mkpasswd --method=bcrypt --stdin) root
