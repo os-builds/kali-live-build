@@ -1,5 +1,4 @@
-# TODO not enough space on disk to generate iso, maybe delete cache before generating iso?
-#kali-linux-everything
+kali-linux-everything
 terminator
 seclists
 gobuster
