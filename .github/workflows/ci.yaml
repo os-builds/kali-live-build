@@ -27,6 +27,22 @@ jobs:
           remove-android: 'true'
           remove-haskell: 'true'
 
+      - name: Check Space
+        run: df -h
+
+      - name: find
+        run: sudo find /opt/
+
+      - name: Maximize build space 2
+        run: |
+          sudo docker system prune --all --force --volumes
+
+      - name: Check Space
+        run: df -h
+
+      - name: EXIT
+        run: exit 1
+
       - uses: actions/checkout@v3
 
       - name: Set environment variables
@@ -71,7 +87,6 @@ jobs:
         run: df -h
 
       - name: Regain space
-        working-directory: ${{ env.LB }}
         run: |
           sudo mv ${LB}/live-image-amd64.hybrid.iso ${REPO}/
           sudo rm -rf ${LB}
