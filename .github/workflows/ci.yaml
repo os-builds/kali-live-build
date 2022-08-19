@@ -73,7 +73,7 @@ jobs:
       - name: Regain space
         working-directory: ${{ env.LB }}
         run: |
-          sudo mv ${LB}/live-image-amd64.hybrid.iso ${REPO}/
+          sudo mv ${LB}/live-image-amd64.hybrid.iso ${REPO}/kali-amd64.iso
           sudo rm -rf ${LB}
           sudo apt-get -y purge git live-build simple-cdd debootstrap cdebootstrap curl libxml2-utils jq
           sudo apt-get -y autoremove
@@ -86,13 +86,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: kali-amd64.iso
-          path: ${{ env.REPO }}/live-image-amd64.hybrid.iso
+          path: ${{ env.REPO }}/kali-amd64.iso
           if-no-files-found: error
 
       - name: Mount ISO to extract required files (filesystem.squashfs, vmlinuz, initrd.img)
         run: |
           mkdir ${REPO}/tmp/
-          sudo mount -o loop ${REPO}/live-image-amd64.hybrid.iso ${REPO}/tmp
+          sudo mount -o loop ${REPO}/kali-amd64.iso ${REPO}/tmp
 
       - name: Uploading vmlinuz
         uses: actions/upload-artifact@v3
