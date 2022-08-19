@@ -21,12 +21,13 @@ jobs:
         run: |
           sudo rm -r /opt/
           sudo docker system prune --all --force --volumes
+          sudo apt purge docker-ce
 
       - name: Maximize build space (2/2)
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 1024
-          temp-reserve-mb: 1024
+          root-reserve-mb: 9216
+          temp-reserve-mb: 512
           swap-size-mb: 128
           remove-dotnet: 'true'
           remove-android: 'true'
@@ -49,6 +50,7 @@ jobs:
           sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl libxml2-utils jq
           sudo dpkg -i kali-archive-keyring_2022.1_all.deb
           sudo dpkg -i live-build_20220505_all.deb
+          rm live-build_20220505_all.deb kali-archive-keyring_2022.1_all.deb
           
           cd /usr/share/debootstrap/scripts/
           (echo "default_mirror http://http.kali.org/kali"; sed -e "s/debian-archive-keyring.gpg/kali-archive-keyring.gpg/g" sid) > /tmp/kali
