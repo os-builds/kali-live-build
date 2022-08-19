@@ -17,7 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Maximize build space
+      - name: Maximize build space (1/2)
+        run: |
+          sudo rm -r /opt/
+          sudo docker system prune --all --force --volumes
+
+      - name: Maximize build space (2/2)
         uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 512
@@ -26,11 +31,6 @@ jobs:
           remove-dotnet: 'true'
           remove-android: 'true'
           remove-haskell: 'true'
-
-      - name: Maximize build space 2
-        run: |
-          sudo rm -r /opt/
-          sudo docker system prune --all --force --volumes
 
       - uses: actions/checkout@v3
 
