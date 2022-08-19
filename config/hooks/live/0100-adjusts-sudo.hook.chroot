@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# stop execution on first error
+set -e
+
+echo "[${0}] Adjusting sudo configuration"
+sed -i 's|%sudo\tALL=(ALL:ALL).*|%sudo\tALL=(ALL:ALL) NOPASSWD: ALL|g' /etc/sudoers
