@@ -10,7 +10,8 @@ rootPassword=root
 set -e
 
 echo "[${0}] Creating user: ${username}"
+# TODO doesn't set correct shell
 useradd --groups sudo --create-home --shell=/bin/bash --password $(echo ${password} | mkpasswd --method=bcrypt --stdin) ${username}
 
 echo "[${0}] Setting root password"
-usermod --password $(echo ${rootPassword} | mkpasswd --method=bcrypt --stdin) root
+usermod --shell=/bin/bash --password $(echo ${rootPassword} | mkpasswd --method=bcrypt --stdin) root

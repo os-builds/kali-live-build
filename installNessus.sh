@@ -24,7 +24,7 @@ obj=$(curl --silent https://www.tenable.com/downloads/nessus?loginAttempted=true
   | jq '.props.pageProps.page.products | to_entries | .[0].value.downloads[] | select(.name | contains("debian")) | select(.name | contains("amd64"))')
 filename=$(jq -r .file <<< ${obj})
 productId=$(jq -r .id <<< ${obj})
-echo "[${0}] Latest nessus versin has product id ${productId}"
+echo "[${0}] Latest nessus version has product id ${productId}"
 if [ ! -f ${LB}/config/packages/${filename} ]; then
   mkdir -p ${LB}/config/packages/
   echo "[${0}] Downloading to ${LB}/config/packages/${filename}"  

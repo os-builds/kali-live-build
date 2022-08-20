@@ -59,8 +59,8 @@ jobs:
 
       - name: Adjust live-build configuration
         run: |
-          sudo cp -vr ${REPO}/config/* ${LB}/config/
           sudo bash ${REPO}/installNessus.sh
+          sudo cp -vr ${REPO}/config/* ${LB}/config/
 
       - name: Building
         working-directory: ${{ env.LB }}

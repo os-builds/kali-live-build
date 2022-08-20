@@ -2,3 +2,6 @@
 
 #echo "[${0}] Enable Nessus on startup"
 #systemctl enable nessusd
+
+#echo "[${0}] Enable OpenVAS on startup"
+#systemctl enable gsad

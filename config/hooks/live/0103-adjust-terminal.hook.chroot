@@ -7,20 +7,5 @@ echo "[${0}] Adjusting .bashrc"
 sed -i 's|PROMPT_ALTERNATIVE=.*|PROMPT_ALTERNATIVE=backtrack|g' /etc/skel/.bashrc
 sed -i 's|NEWLINE_BEFORE_PROMPT=.*|NEWLINE_BEFORE_PROMPT=no|g' /etc/skel/.bashrc
 
-echo "[${0}] Creating terminator configuraton"
-mkdir -p /etc/skel/.config/terminator/
-cat <<_EOF > /etc/skel/.config/terminator/config
-[profiles]
-  [[default]]
-    background_darkness = 0.95
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    show_titlebar = False
-    scrollbar_position = hidden
-    scrollback_infinite = True
-    palette = "#1f2229:#d41919:#5ebdab:#fea44c:#367bf0:#9755b3:#49aee6:#e6e6e6:>
-    use_theme_colors = True
-_EOF
-
 echo "[${0}] Setting default terminal emulator"
 sed -i 's/qterminal/terminator/' /etc/xdg/xfce4/helpers.rc
