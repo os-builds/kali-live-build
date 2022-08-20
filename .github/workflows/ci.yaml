@@ -20,101 +20,22 @@ jobs:
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 6144
-          temp-reserve-mb: 6144
-          swap-size-mb: 1024
+          root-reserve-mb: 512
+          temp-reserve-mb: 512
+          swap-size-mb: 128
           remove-dotnet: 'true'
           remove-android: 'true'
           remove-haskell: 'true'
-
-      - uses: actions/checkout@v3
-
-      - name: Set environment variables
-        run: |
-          echo REPO=$(pwd) >> ${GITHUB_ENV}
-          echo LB=$(pwd)/live-build >> ${GITHUB_ENV}
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get full-upgrade -y
-          wget https://http.kali.org/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
-          wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505_all.deb
-
-          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl libxml2-utils jq
-          sudo dpkg -i kali-archive-keyring_2022.1_all.deb
-          sudo dpkg -i live-build_20220505_all.deb
-          
-          cd /usr/share/debootstrap/scripts/
-          (echo "default_mirror http://http.kali.org/kali"; sed -e "s/debian-archive-keyring.gpg/kali-archive-keyring.gpg/g" sid) > /tmp/kali
-          sudo mv /tmp/kali .
-          sudo rm -rf kali-rolling
-          sudo ln -s kali kali-rolling
-
-      - name: Create live-build directory structure
-        run: |
-          sudo git clone https://gitlab.com/kalilinux/build-scripts/live-build-config.git ${LB}
-          cd ${LB}
-          sudo lb config --distribution kali-rolling -- --variant xfce
-
-      - name: Adjust live-build configuration
-        run: |
-          sudo cp -vr ${REPO}/config/* ${LB}/config/
-          sudo bash ${REPO}/installNessus.sh
-
-      - name: Building
-        working-directory: ${{ env.LB }}
-        run: |
-          sudo lb build
-
-      - name: Check Space
+      
+      - name: show
         run: df -h
 
-      - name: Regain space
-        working-directory: ${{ env.LB }}
-        run: |
-          sudo mv ${LB}/live-image-amd64.hybrid.iso ${REPO}/kali-amd64.iso
-          sudo rm -rf ${LB}
-          sudo apt-get -y purge git live-build simple-cdd debootstrap cdebootstrap curl libxml2-utils jq
-          sudo apt-get -y autoremove
-          sudo apt-get -y clean
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 16384
+          temp-reserve-mb: 16384
+          swap-size-mb: 4096
 
-      - name: Check Space
+      - name: show
         run: df -h
-
-      - name: Uploading ISO
-        uses: actions/upload-artifact@v3
-        with:
-          name: kali-amd64.iso
-          path: ${{ env.REPO }}/kali-amd64.iso
-          if-no-files-found: error
-
-      - name: Mount ISO to extract required files (filesystem.squashfs, vmlinuz, initrd.img)
-        run: |
-          mkdir ${REPO}/tmp/
-          sudo mount -o loop ${REPO}/kali-amd64.iso ${REPO}/tmp
-
-      - name: Uploading vmlinuz
-        uses: actions/upload-artifact@v3
-        with:
-          name: vmlinuz
-          path: |
-            ${{ env.REPO }}/tmp/live/vmlinuz
-          if-no-files-found: error
-
-      - name: Uploading initrd.img
-        uses: actions/upload-artifact@v3
-        with:
-          name: initrd.img
-          path: |
-            ${{ env.REPO }}/tmp/live/initrd.img
-          if-no-files-found: error
-
-      - name: Uploading filesystem.squashfs
-        uses: actions/upload-artifact@v3
-        with:
-          name: filesystem.squashfs
-          path: |
-            ${{ env.REPO }}/tmp/live/filesystem.squashfs
-          if-no-files-found: error
-
