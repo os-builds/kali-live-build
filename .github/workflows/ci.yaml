@@ -101,11 +101,11 @@ jobs:
           - live/filesystem.squashfs
 
     steps:
-      - uses: actions/checkout@v3
-
       - uses: actions/download-artifact@v3
         with:
           name: kali-amd64.iso
+          
+      - run: mkdir tmp
 
       - name: Mount ISO
         run: sudo mount -o loop kali-amd64.iso tmp
