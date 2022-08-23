@@ -23,6 +23,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y curl libxml2-utils jq
+      
+      - name: Download packages
+        run: |
           sudo bash downloadNessus.sh
 
       - name: Upload debian packages
