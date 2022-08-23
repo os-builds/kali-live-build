@@ -89,32 +89,30 @@ jobs:
           path: ${{ env.REPO }}/kali-amd64.iso
           if-no-files-found: error
 
-      - name: Mount ISO to extract required files (filesystem.squashfs, vmlinuz, initrd.img)
-        run: |
-          mkdir ${REPO}/tmp/
-          sudo mount -o loop ${REPO}/kali-amd64.iso ${REPO}/tmp
+  extract:
+    needs: [ build ]
+    runs-on: ubuntu-latest
 
-      - name: Uploading vmlinuz
+    strategy:
+      matrix:
+        files:
+          - live/vmlinuz
+          - live/initrd.img
+          - live/filesystem.squashfs
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: kali-amd64.iso
+
+      - name: Mount ISO
+        run: sudo mount -o loop kali-amd64.iso tmp
+
+      - name: Upload ${{ matrix.files }}
         uses: actions/upload-artifact@v3
         with:
-          name: vmlinuz
-          path: |
-            ${{ env.REPO }}/tmp/live/vmlinuz
+          name: ${{ matrix.files }}
+          path: tmp/${{ matrix.files }}
           if-no-files-found: error
-
-      - name: Uploading initrd.img
-        uses: actions/upload-artifact@v3
-        with:
-          name: initrd.img
-          path: |
-            ${{ env.REPO }}/tmp/live/initrd.img
-          if-no-files-found: error
-
-      - name: Uploading filesystem.squashfs
-        uses: actions/upload-artifact@v3
-        with:
-          name: filesystem.squashfs
-          path: |
-            ${{ env.REPO }}/tmp/live/filesystem.squashfs
-          if-no-files-found: error
-
