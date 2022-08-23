@@ -82,12 +82,30 @@ jobs:
       - name: Check Space
         run: df -h
 
+      - name: Cache ISO
+        id: cache-iso
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.REPO }}/kali-amd64.iso
+          key: ${{ runner.os }}-iso
+
       - name: Uploading ISO
         uses: actions/upload-artifact@v3
         with:
           name: kali-amd64.iso
           path: ${{ env.REPO }}/kali-amd64.iso
           if-no-files-found: error
+
+  extract:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo REPO=$(pwd) >> ${GITHUB_ENV}
 
       - name: Mount ISO to extract required files (filesystem.squashfs, vmlinuz, initrd.img)
         run: |
