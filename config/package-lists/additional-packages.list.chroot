@@ -2,10 +2,10 @@
 # see https://www.kali.org/docs/general-use/metapackages/ for more details
 
 # Tools
-#kali-tools-gpu
+kali-tools-gpu
 kali-tools-hardware
-#kali-tools-crypto-stego
-#kali-tools-fuzzing
+kali-tools-crypto-stego
+kali-tools-fuzzing
 kali-tools-802-11
 kali-tools-bluetooth
 kali-tools-rfid
@@ -19,11 +19,11 @@ kali-tools-information-gathering
 kali-tools-vulnerability
 kali-tools-web
 kali-tools-database
-#kali-tools-passwords
+kali-tools-passwords
 kali-tools-wireless
 kali-tools-reverse-engineering
 kali-tools-exploitation
-#kali-tools-social-engineering
+kali-tools-social-engineering
 kali-tools-sniffing-spoofing
 kali-tools-post-exploitation
 kali-tools-forensics
