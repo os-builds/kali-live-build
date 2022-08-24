@@ -125,9 +125,9 @@ jobs:
     strategy:
       matrix:
         files:
-          - vmlinuz
-          - initrd.img
-          - filesystem.squashfs
+          - live/vmlinuz
+          - live/initrd.img
+          - live/filesystem.squashfs
 
     steps:
       - uses: actions/download-artifact@v3
