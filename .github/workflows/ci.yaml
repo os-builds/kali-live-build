@@ -96,9 +96,9 @@ jobs:
     strategy:
       matrix:
         files:
-          - live/vmlinuz
-          - live/initrd.img
-          - live/filesystem.squashfs
+          - vmlinuz
+          - initrd.img
+          - filesystem.squashfs
 
     steps:
       - uses: actions/download-artifact@v3
@@ -113,6 +113,8 @@ jobs:
       - name: Upload ${{ matrix.files }}
         uses: actions/upload-artifact@v3
         with:
+          # TODO change to basename matrix.files - but how to do this in github?
+          # afterwards TODO remove "live/" from path
           name: ${{ matrix.files }}
-          path: tmp/${{ matrix.files }}
+          path: tmp/live/${{ matrix.files }}
           if-no-files-found: error
