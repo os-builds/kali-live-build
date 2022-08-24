@@ -137,13 +137,13 @@ jobs:
       - run: mkdir tmp
 
       - name: Mount ISO
-        run: sudo mount -o loop kali-amd64.iso tmp
+        run: |
+          sudo mount -o loop kali-amd64.iso tmp
+          echo name=$(basename ${{ matrix.files }}) >> ${GITHUB_ENV}          
 
       - name: Upload ${{ matrix.files }}
         uses: actions/upload-artifact@v3
         with:
-          # TODO change to basename matrix.files - but how to do this in github?
-          # afterwards TODO remove "live/" from path
-          name: ${{ matrix.files }}
-          path: tmp/live/${{ matrix.files }}
+          name: ${{ name }}
+          path: tmp/${{ matrix.files }}
           if-no-files-found: error
