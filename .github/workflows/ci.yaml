@@ -144,6 +144,6 @@ jobs:
       - name: Upload ${{ matrix.files }}
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ name }}
+          name: ${{ env.name }}
           path: tmp/${{ matrix.files }}
           if-no-files-found: error
