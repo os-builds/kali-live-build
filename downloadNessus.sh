@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# TODO this shouldn't be nessesary...
-LB="/home/runner/work/kali-live-build/kali-live-build/live-build"
-
 # abort execution on error
 set -e
 
@@ -25,16 +22,15 @@ obj=$(curl --silent https://www.tenable.com/downloads/nessus?loginAttempted=true
 filename=$(jq -r .file <<< ${obj})
 productId=$(jq -r .id <<< ${obj})
 echo "[${0}] Latest nessus version has product id ${productId}"
-if [ ! -f ${LB}/config/packages/${filename} ]; then
-  mkdir -p ${LB}/config/packages/
-  echo "[${0}] Downloading to ${LB}/config/packages/${filename}"  
-  wget -q --show-progress -O ${LB}/config/packages/${filename} https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/${productId}/download?i_agree_to_tenable_license_agreement=true
+if [ ! -f ${filename} ]; then
+  echo "[${0}] Downloading to ${filename}"  
+  wget -q --show-progress -O ${filename} https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/${productId}/download?i_agree_to_tenable_license_agreement=true
   # https://forums.kali.org/showthread.php?31148-Adding-custom-packages-(-deb)-to-the-Kali-2-0-live-build-process
   # https://gist.github.com/kafkaesqu3/81f320ebfc8583603c679222edc464ac
   mkdir tmp
   echo "[${0}] Fixing package name"
-  dpkg-deb -R ${LB}/config/packages/${filename} tmp
+  dpkg-deb -R ${filename} tmp
   sed -i -e "s/\(Package: \)\(Nessus\)/\1\L\2/" tmp/DEBIAN/control
-  dpkg-deb -b tmp ${LB}/config/packages/${filename}
+  dpkg-deb -b tmp ${filename}
   rm -r tmp
 fi

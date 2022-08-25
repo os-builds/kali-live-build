@@ -13,15 +13,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  download-packages:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl libxml2-utils jq
+      
+      - name: Download packages
+        run: |
+          sudo bash downloadNessus.sh
+
+      - name: Upload debian packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: debian-packages
+          path: "*.deb"
+          if-no-files-found: error
+
   build:
+    needs: [ download-packages ]
     runs-on: ubuntu-latest
 
     steps:
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
-          root-reserve-mb: 6144
-          temp-reserve-mb: 512
+          root-reserve-mb: 8192
+          temp-reserve-mb: 1024
           swap-size-mb: 512
           remove-dotnet: 'true'
           remove-android: 'true'
@@ -41,7 +64,7 @@ jobs:
           wget https://http.kali.org/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
           wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505_all.deb
 
-          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl libxml2-utils jq
+          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl
           sudo dpkg -i kali-archive-keyring_2022.1_all.deb
           sudo dpkg -i live-build_20220505_all.deb
           
@@ -56,10 +79,16 @@ jobs:
           sudo git clone https://gitlab.com/kalilinux/build-scripts/live-build-config.git ${LB}
           cd ${LB}
           sudo lb config --distribution kali-rolling -- --variant xfce
+          sudo mkdir -p config/packages/
+
+      - name: Download debian packages
+        uses: actions/download-artifact@v3
+        with:
+          name: debian-packages
+          path: config/packages
 
       - name: Adjust live-build configuration
         run: |
-          sudo bash ${REPO}/downloadNessus.sh
           sudo cp -vr ${REPO}/config/* ${LB}/config/
 
       - name: Building
@@ -96,9 +125,9 @@ jobs:
     strategy:
       matrix:
         files:
-          - vmlinuz
-          - initrd.img
-          - filesystem.squashfs
+          - live/vmlinuz
+          - live/initrd.img
+          - live/filesystem.squashfs
 
     steps:
       - uses: actions/download-artifact@v3
@@ -108,13 +137,13 @@ jobs:
       - run: mkdir tmp
 
       - name: Mount ISO
-        run: sudo mount -o loop kali-amd64.iso tmp
+        run: |
+          sudo mount -o loop kali-amd64.iso tmp
+          echo name=$(basename ${{ matrix.files }}) >> ${GITHUB_ENV}          
 
       - name: Upload ${{ matrix.files }}
         uses: actions/upload-artifact@v3
         with:
-          # TODO change to basename matrix.files - but how to do this in github?
-          # afterwards TODO remove "live/" from path
-          name: ${{ matrix.files }}
-          path: tmp/live/${{ matrix.files }}
+          name: ${{ env.name }}
+          path: tmp/${{ matrix.files }}
           if-no-files-found: error
