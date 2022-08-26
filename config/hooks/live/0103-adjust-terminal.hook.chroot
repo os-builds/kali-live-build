@@ -4,8 +4,9 @@
 set -e
 
 echo "[${0}] Adjusting .bashrc"
-sed -i 's|PROMPT_ALTERNATIVE=.*|PROMPT_ALTERNATIVE=backtrack|g' /etc/skel/.bashrc
-sed -i 's|NEWLINE_BEFORE_PROMPT=.*|NEWLINE_BEFORE_PROMPT=no|g' /etc/skel/.bashrc
+for f in /etc/skel/.bashrc /root/.bashrc; do
+  sed -i -e 's|\(PROMPT_ALTERNATIVE\)=.*|\1=backtrack|g ; s|\(NEWLINE_BEFORE_PROMPT\)=.*|\1=no|g' ${f}
+done
 
 echo "[${0}] Setting default terminal emulator"
 sed -i 's/qterminal/terminator/' /etc/xdg/xfce4/helpers.rc
