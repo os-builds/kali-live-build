@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # change wallpaper
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/custom/blackscreen.png
+#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/custom/blackscreen.png
 
 # change wallpaper on live system running inside a virtual machine
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --set /usr/share/backgrounds/custom/blackscreen.png
+#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --set /usr/share/backgrounds/custom/blackscreen.png
 
 # adjust keybinds (add Super + E for file manager)
 # TODO not working

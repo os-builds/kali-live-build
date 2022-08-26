@@ -9,10 +9,15 @@ rootPassword=root
 # stop execution on first error
 set -e
 
+# setting the shell to /bin/bash here does not work because of
+# https://gitlab.com/kalilinux/build-scripts/live-build-config/-/blob/master/kali-config/common/includes.chroot/usr/lib/live/config/0031-kali-user-setup
+# this file is being started every time when the system starts up (if persistence is enabled, only on the first boot)
+# solution: add nozsh kernel parameter to append in syslinux config: 
+# sed -i -e '/append/ s/\(.*\)/\1 nozsh/' kali-config/common/bootloaders/syslinux_common/live.cfg.in
+
+
 echo "[${0}] Creating user: ${username}"
-# TODO doesn't set correct shell
 useradd --groups sudo --create-home --shell=/bin/bash --password $(echo ${password} | mkpasswd --method=bcrypt --stdin) ${username}
 
 echo "[${0}] Setting root password"
-# TODO doesn't set correct shell
 usermod --shell=/bin/bash --password $(echo ${rootPassword} | mkpasswd --method=bcrypt --stdin) root
