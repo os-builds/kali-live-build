@@ -1,12 +1,5 @@
 #!/bin/bash
 
-### CONFIGURATION SECTION ###
-openvasUsername=openvas
-openvasPassword=openvas
-### END OF CONFIGURATION SECTION ###
-
 echo "[${0}] Setup OpenVAS"
 systemctl enable redis-server@openvas.service
 gvm-setup
-runuser -u postgres -- /usr/share/gvm/create-postgresql-database
-runuser -u _gvm -- gvmd --create-user=${openvasUsername} --password=${openvasPassword}

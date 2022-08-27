@@ -1,7 +1,16 @@
 #!/bin/bash
 
+### CONFIGURATION SECTION ###
+openvasUsername=openvas
+openvasPassword=openvas
+### END OF CONFIGURATION SECTION ###
+
 # change wallpaper
 xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/backgrounds/custom/blackscreen.png
 
 # change wallpaper on live system running inside a virtual machine
 xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/last-image --set /usr/share/backgrounds/custom/blackscreen.png
+
+# finish openvas installation
+runuser -u postgres -- /usr/share/gvm/create-postgresql-database
+runuser -u _gvm -- gvmd --create-user=${openvasUsername} --password=${openvasPassword}
