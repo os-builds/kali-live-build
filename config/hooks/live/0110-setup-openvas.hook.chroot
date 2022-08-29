@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#echo "[${0}] Setup OpenVAS"
-#systemctl enable redis-server@openvas.service
-#gvm-setup
-#runuser -u postgres -- /usr/share/gvm7create-postgresql-database
-#runuser -u _gvm -- gvmd --create-user=openvas --password=openvas
+echo "[${0}] Setup OpenVAS"
+systemctl enable redis-server@openvas.service
+gvm-setup

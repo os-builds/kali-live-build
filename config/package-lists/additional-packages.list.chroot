@@ -31,6 +31,7 @@ kali-tools-reporting
 
 # Others
 kali-linux-large
+#kali-linux-everything
 
 ### Additional ###
 terminator
@@ -38,3 +39,4 @@ seclists
 gobuster
 # required, to adjust the xfce4 keyboard shortcuts (see post-install.sh)
 xmlstarlet
+openvas

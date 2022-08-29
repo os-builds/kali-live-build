@@ -64,7 +64,7 @@ jobs:
           wget https://http.kali.org/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
           wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505_all.deb
 
-          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl
+          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl sed
           sudo dpkg -i kali-archive-keyring_2022.1_all.deb
           sudo dpkg -i live-build_20220505_all.deb
           
@@ -90,6 +90,7 @@ jobs:
       - name: Adjust live-build configuration
         run: |
           sudo cp -vr ${REPO}/config/* ${LB}/config/
+          sudo sed -i -e '/append/ s/\(.*\)/\1 nozsh/' ${LB}/kali-config/common/bootloaders/syslinux_common/live.cfg.in
 
       - name: Building
         working-directory: ${{ env.LB }}
