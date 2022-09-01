@@ -90,7 +90,11 @@ jobs:
       - name: Adjust live-build configuration
         run: |
           sudo cp -vr ${REPO}/config/* ${LB}/config/
+          # TODO not working
           sudo sed -i -e '/append/ s/\(.*\)/\1 nozsh/' ${LB}/kali-config/common/bootloaders/syslinux_common/live.cfg.in
+          sudo chmod +x ${LB}/config/includes.chroot/etc/skel/post-install.sh
+          # make scripts that are being sourced on startup executeable (shouldn't be nessesary because they will be sourced)
+          sudo chmod +x ${LB}/config/includes.chroot/etc/live/config.conf.d/*
 
       - name: Building
         working-directory: ${{ env.LB }}

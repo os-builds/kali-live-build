@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# set login background
+ln -sf /usr/share/backgrounds/custom/blackscreen.png /usr/share/desktop-base/kali-theme/login/background
