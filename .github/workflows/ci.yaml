@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, issue-10 ]
     tags: [ '*' ]
   pull_request:
   schedule:
@@ -95,6 +95,8 @@ jobs:
           sudo chmod +x ${LB}/config/includes.chroot/etc/skel/post-install.sh
           # make scripts that are being sourced on startup executeable (shouldn't be nessesary because they will be sourced)
           sudo chmod +x ${LB}/config/includes.chroot/etc/live/config.conf.d/*
+
+          patch -p0 < ${REPO}/nvidia-fix.patch
 
       - name: Building
         working-directory: ${{ env.LB }}

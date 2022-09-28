@@ -1,0 +1,15 @@
+--- /usr/share/live/build/functions/firmwarelists.sh    2022-09-05 
+16:23:22.053130441 +0000
++++ /usr/share/live/build/functions/firmwarelists.sh.new        2022-09-05 
+16:22:05.412045133 +0000
+@@ -48,7 +48,7 @@
+            fi
+ 
+            local PACKAGES
+-                       PACKAGES="$(gunzip -c "${CONTENTS_FILE}" | awk 
+'/^lib\/firmware/ { print $2 }' | sort -u )"
++                       PACKAGES="$(gunzip -c "${CONTENTS_FILE}" | awk 
+'/^lib\/firmware/ { print $2 }' | grep -v nvidia | sort -u)"
+            FIRMWARE_PACKAGES="${FIRMWARE_PACKAGES} ${PACKAGES}"
+ 
+            # Don't waste disk space, if not making use of caching
