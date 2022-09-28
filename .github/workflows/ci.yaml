@@ -96,7 +96,7 @@ jobs:
           # make scripts that are being sourced on startup executeable (shouldn't be nessesary because they will be sourced)
           sudo chmod +x ${LB}/config/includes.chroot/etc/live/config.conf.d/*
 
-          sudo patch -d/ -p0 < ${REPO}/nvidia-fix.patch
+          sudo patch /usr/share/live/build/functions/firmwarelists.sh ${REPO}/nvidia-fix.patch
 
       - name: Building
         working-directory: ${{ env.LB }}
