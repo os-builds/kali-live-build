@@ -81,14 +81,11 @@ jobs:
           sudo lb config --distribution kali-rolling -- --variant xfce
           sudo mkdir -p config/packages/
 
-      - name: Download debian packages
-        uses: actions/download-artifact@v3
-        with:
-          name: debian-packages
-          path: config/packages
-
-      # DEBUG
-      - run: find config/packages -exec file {} \;
+      #- name: Download debian packages
+      #  uses: actions/download-artifact@v3
+      #  with:
+      #    name: debian-packages
+      #    path: config/packages
 
       - name: Adjust live-build configuration
         run: |
