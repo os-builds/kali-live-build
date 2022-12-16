@@ -87,6 +87,9 @@ jobs:
           name: debian-packages
           path: config/packages
 
+      # DEBUG
+      - run: find config/packages -exec file {} \;
+
       - name: Adjust live-build configuration
         run: |
           sudo cp -vr ${REPO}/config/* ${LB}/config/
