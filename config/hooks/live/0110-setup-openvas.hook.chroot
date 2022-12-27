@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "[${0}] Setup OpenVAS"
-systemctl enable redis-server@openvas.service
-pg_upgradecluster
-gvm-setup
+# echo "[${0}] Setup OpenVAS"
+# systemctl enable redis-server@openvas.service
+# pg_upgradecluster
+# gvm-setup
