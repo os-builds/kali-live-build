@@ -13,30 +13,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  download-packages:
-    runs-on: ubuntu-latest
-    steps:
-      
-      - uses: actions/checkout@v3
+  #download-packages:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    
+  #    - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl libxml2-utils jq
-      
-      - name: Download packages
-        run: |
-          sudo bash downloadNessus.sh
+  #    - name: Install dependencies
+  #      run: |
+  #        sudo apt-get update
+  #        sudo apt-get install -y curl libxml2-utils jq
+  #    
+  #    - name: Download packages
+  #      run: |
+  #        sudo bash downloadNessus.sh
 
-      - name: Upload debian packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: debian-packages
-          path: "*.deb"
-          if-no-files-found: error
+  #    - name: Upload debian packages
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: debian-packages
+  #        path: "*.deb"
+  #        if-no-files-found: error
 
   build:
-    needs: [ download-packages ]
+    #needs: [ download-packages ]
     runs-on: ubuntu-latest
 
     steps:
