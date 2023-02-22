@@ -64,7 +64,7 @@ jobs:
           wget https://http.kali.org/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
           wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505kali3_all.deb
 
-          sudo apt-get install -y git live-build simple-cdd cdebootstrap curl sed
+          sudo apt-get install -y git live-build simple-cdd cdebootstrap debootstrap curl sed
           sudo dpkg -i kali-archive-keyring_2022.1_all.deb
           sudo dpkg -i live-build_20220505kali3_all.deb
           
