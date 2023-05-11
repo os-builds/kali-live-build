@@ -18,7 +18,7 @@ fi
 echo "[${0}] Fetching download URL"
 obj=$(curl --silent https://www.tenable.com/downloads/nessus?loginAttempted=true \
   | xmllint --html --xpath "string(//script[@type='application/json'])" - 2> /dev/null \
-  | jq '.props.pageProps.page.products | to_entries | .[0].value.downloads[] | select(.name | contains("debian")) | select(.name | contains("amd64"))')
+  | jq '[.props.pageProps.page.products | to_entries[] | select(.key | contains("nessus"))] | .[0].value.downloads[] | select(.name | contains("debian")) | select(.name | contains("amd64"))')
 filename=$(jq -r .file <<< ${obj})
 productId=$(jq -r .id <<< ${obj})
 echo "[${0}] Latest nessus version has product id ${productId}"

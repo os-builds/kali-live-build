@@ -15,8 +15,7 @@ concurrency:
 jobs:
   download-packages:
     runs-on: ubuntu-latest
-    steps:
-      
+    steps:    
       - uses: actions/checkout@v3
 
       - name: Install dependencies
@@ -60,13 +59,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get full-upgrade -y
+          #sudo apt-get full-upgrade -y
           wget https://http.kali.org/pool/main/k/kali-archive-keyring/kali-archive-keyring_2022.1_all.deb
-          wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505_all.deb
+          wget https://http.kali.org/kali/pool/main/l/live-build/live-build_20220505kali3_all.deb
 
-          sudo apt-get install -y git live-build simple-cdd debootstrap cdebootstrap curl sed
+          sudo apt-get install -y git live-build simple-cdd cdebootstrap debootstrap curl sed
           sudo dpkg -i kali-archive-keyring_2022.1_all.deb
-          sudo dpkg -i live-build_20220505_all.deb
+          sudo dpkg -i live-build_20220505kali3_all.deb
           
           cd /usr/share/debootstrap/scripts/
           (echo "default_mirror http://http.kali.org/kali"; sed -e "s/debian-archive-keyring.gpg/kali-archive-keyring.gpg/g" sid) > /tmp/kali
@@ -81,11 +80,11 @@ jobs:
           sudo lb config --distribution kali-rolling -- --variant xfce
           sudo mkdir -p config/packages/
 
-      - name: Download debian packages
-        uses: actions/download-artifact@v3
-        with:
-          name: debian-packages
-          path: config/packages
+      #- name: Download debian packages
+      #  uses: actions/download-artifact@v3
+      #  with:
+      #    name: debian-packages
+      #    path: config/packages
 
       - name: Adjust live-build configuration
         run: |
@@ -95,8 +94,6 @@ jobs:
           sudo chmod +x ${LB}/config/includes.chroot/etc/skel/post-install.sh
           # make scripts that are being sourced on startup executeable (shouldn't be nessesary because they will be sourced)
           sudo chmod +x ${LB}/config/includes.chroot/etc/live/config.conf.d/*
-
-          sudo patch /usr/share/live/build/functions/firmwarelists.sh ${REPO}/nvidia-fix.patch
 
       - name: Building
         working-directory: ${{ env.LB }}

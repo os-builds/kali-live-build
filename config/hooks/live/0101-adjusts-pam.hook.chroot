@@ -3,5 +3,13 @@
 # stop execution on first error
 set -e
 
-echo "[${0}] Adjusting pam configuration (skip gui password prompt's)"
-sed -i '2 aauth sufficient pam_succeed_if.so user ingroup sudo\n' /etc/pam.d/polkit-1
+# TODO does not work
+# [/root/0100-adjusts-sudo.hook.chroot] Adjusting sudo configuration
+# P: Executing hook config/hooks/live/0101-adjusts-pam.hook.chroot...
+# [/root/0101-adjusts-pam.hook.chroot] Adjusting pam configuration (skip gui password prompt's)
+# sed: can't read /etc/pam.d/polkit-1: No such file or directory
+# E: config/hooks/live/0101-adjusts-pam.hook.chroot failed (exit non-zero). You should check for errors.
+# E: An unexpected failure occurred, exiting...
+
+#echo "[${0}] Adjusting pam configuration (skip gui password prompt's)"
+#sed -i '2 aauth sufficient pam_succeed_if.so user ingroup sudo\n' /etc/pam.d/polkit-1

@@ -1,4 +1,7 @@
 #!/bin/bash
 
+#mkdir -p /usr/share/backgrounds/custom/
+#convert -size 100x100 'xc:#150936' /usr/share/backgrounds/custom/os-builds.png
+
 # set login background
-ln -sf /usr/share/backgrounds/custom/blackscreen.png /usr/share/desktop-base/kali-theme/login/background
+ln -sf /usr/share/backgrounds/custom/os-builds.png /usr/share/desktop-base/kali-theme/login/background
